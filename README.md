@@ -1,1 +1,3 @@
-# test-ha
+# TEST
+
+- Repositories for git testing.
