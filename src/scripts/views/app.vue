@@ -1,5 +1,7 @@
 <template>
-  <div class="l-container">app</div>
+  <div class="l-container">
+    <router-view/>
+  </div>
 </template>
 
 <style lang="scss">
