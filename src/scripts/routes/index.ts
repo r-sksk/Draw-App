@@ -7,18 +7,17 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
   {
     path: "/",
-    name: "Home",
+    name: "home",
     component: Home,
   },
   {
     path: "/*",
-    redirect: { name: "Home" },
+    redirect: {name: "home"},
   },
 ];
 
 const router = new VueRouter({
   mode: "history",
-  base: "",
   routes,
 });
 
