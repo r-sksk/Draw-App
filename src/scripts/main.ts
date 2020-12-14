@@ -3,6 +3,8 @@ import App from "@/views/app.vue";
 import store from "@/stores"
 import router from "@/routes";
 
+store.dispatch('init');
+
 new Vue({
   router,
   store,
