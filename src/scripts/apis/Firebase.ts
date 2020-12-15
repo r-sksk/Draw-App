@@ -1,52 +1,49 @@
 import firebase from "firebase";
 import { FirebaseConfig } from "./types";
-// import store from '@/stores'
 
 class Firebase {
-  firebase: object;
-  boardsRef!: object;
-  messagesRef!: object;
-  objectsRef!: object;
-  dbPath!: object;
+  firebaeInit: firebase.app.App;
 
-  static async init(config: FirebaseConfig) {
-    const firebaeInit = firebase.initializeApp(config);
+  static init(config: FirebaseConfig): Firebase {
     console.log("firebase init.");
-
-    if (firebaeInit) {
-      new Firebase(firebaeInit);
-    }
+    return new Firebase(config);
   }
 
-  constructor(firebaeInit: object) {
-    this.firebase = firebaeInit;
-    this.connectDB();
-    this.getBoard();
+  constructor(config: FirebaseConfig) {
+    this.firebaeInit = firebase.initializeApp(config);
   }
 
-  async connectDB() {
-    // const storagePath = this.firebase.storage().ref();
-    this.dbPath = this.firebase.database();
+  connectDB(firebaeInit: firebase.app.App) {
+    const baseURL = `boards/${location.pathname}`;
+    const dbPath = firebaeInit.database();
 
-    const boardsHash = location.pathname;
-    this.boardsRef = this.dbPath.ref(`boards/${boardsHash}/createdAt`);
-    this.messagesRef = this.dbPath.ref(`boards/${boardsHash}/messages`);
-    this.objectsRef = this.dbPath.ref(`boards/${boardsHash}/objects`);
+    const firebaseObj = {
+      inst: firebaeInit,
+      dbPath: dbPath,
+      storagePath: firebaeInit.storage().ref(),
+      boardsRef: dbPath.ref(`${baseURL}/createdAt`),
+      messagesRef: dbPath.ref(`${baseURL}/messages`),
+      objectsRef: dbPath.ref(`${baseURL}/objects`),
+    };
+
+    return firebaseObj;
   }
 
-  async getBoard() {
-    let key: string;
-    const now = new Date();
+  once(
+    event: firebase.database.EventType,
+    targetRef: firebase.database.Reference
+  ): void {
+    targetRef.once(event, (snapshot) => {
+      console.log(snapshot);
+    });
+  }
 
-    this.boardsRef.once("value", (snapshot: object) => {
-      if (!snapshot.exists()) {
-        key = this.dbPath.ref("boards").push({
-          createdAt: now.toLocaleString(),
-          objects: {},
-          messages: {},
-        }).key;
-      }
-      //   location.pathname = `/${key}`;
+  on(
+    event: firebase.database.EventType,
+    targetRef: firebase.database.Reference
+  ): void {
+    targetRef.on(event, (snapshot) => {
+      console.log(snapshot);
     });
   }
 }
