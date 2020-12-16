@@ -18,7 +18,7 @@ export const actions: ActionTree<RootState, RootState> = {
     };
 
     const firebase = Firebase.init(firebaseConfig);
-    const firebaseObj = firebase.connectDB(firebase.firebaeInit);
-    context.commit("firebase", firebaseObj);
+    const firebaseObj = firebase.getDBInfo(firebase.firebaeInit);
+    context.commit("firebaseInit", firebaseObj);
   },
 };
