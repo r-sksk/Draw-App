@@ -13,4 +13,7 @@ export interface RootState {
     messagesRef: firebase.database.Reference | undefined;
     objectsRef: firebase.database.Reference | undefined;
   };
+  canvas: {
+    inst: 
+  }
 }
