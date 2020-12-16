@@ -13,7 +13,7 @@ class Firebase {
     this.firebaeInit = firebase.initializeApp(config);
   }
 
-  connectDB(firebaeInit: firebase.app.App) {
+  getDBInfo(firebaeInit: firebase.app.App): object {
     const baseURL = `boards/${location.pathname}`;
     const dbPath = firebaeInit.database();
 
