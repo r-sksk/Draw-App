@@ -1,9 +1,16 @@
 import Vue from "vue";
 import App from "@/views/app.vue";
-import store from "@/stores"
+import store from "@/stores";
 import router from "@/routes";
+import { fabric } from "fabric";
 
-store.dispatch('init');
+// let canvas: Canvas;
+
+// canvas = new fabric.Canvas("canvas", {
+//   backgroundColor: "white",
+//   rotationCursor: "grab",
+// });
+store.dispatch("init");
 
 new Vue({
   router,
