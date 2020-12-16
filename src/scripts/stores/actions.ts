@@ -5,7 +5,11 @@ import { FirebaseConfig } from "@/apis/types";
 
 // 外部との通信（非同期処理OK）、描画処理など
 export const actions: ActionTree<RootState, RootState> = {
+<<<<<<< Updated upstream
   init: (context) => {
+=======
+  connectFirebase: (context) => {
+>>>>>>> Stashed changes
     const firebaseConfig: FirebaseConfig = {
       apiKey: "AIzaSyAwxa81wGhmDu_1KmoVUi48jIcxaNW5yHU",
       authDomain: "draw-talk.firebaseapp.com",
@@ -19,6 +23,10 @@ export const actions: ActionTree<RootState, RootState> = {
 
     const firebase = Firebase.init(firebaseConfig);
     const firebaseObj = firebase.getDBInfo(firebase.firebaeInit);
+<<<<<<< Updated upstream
     context.commit("firebaseInit", firebaseObj);
+=======
+    context.commit("initFirebase", firebaseObj);
+>>>>>>> Stashed changes
   },
 };

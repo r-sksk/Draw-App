@@ -1,9 +1,31 @@
 import { MutationTree } from "vuex";
 import { RootState } from "@/stores/types";
+<<<<<<< Updated upstream
 
 // ストアの状態変更（同期処理）のみ
 export const mutations: MutationTree<RootState> = {
   firebaseInit: (state, firebaseObj) => {
     state.firebase = firebaseObj;
   },
+=======
+import { fabric } from "fabric";
+
+// ストアの状態変更（同期処理）のみ
+export const mutations: MutationTree<RootState> = {
+  initFirebase: (state, firebaseObj) => {
+    state.firebase = firebaseObj;
+  },
+
+  initCanvas: (state) => {
+    console.log('fabricCanvas init');
+
+    const fabricObj = {
+      backgroundColor: "red",
+      rotationCursor: "grab",
+    }
+    const canvsElmId = "fabricCavas"
+    const fabricCanvas = new fabric.Canvas(canvsElmId, fabricObj);
+    state.fabric.canvas = fabricCanvas;
+  }
+>>>>>>> Stashed changes
 };
