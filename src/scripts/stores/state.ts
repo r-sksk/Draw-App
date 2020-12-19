@@ -11,6 +11,7 @@ export const state: RootState = {
     objectsRef: undefined,
   },
   fabric: {
+    inst: undefined,
     canvas: undefined,
   },
 };

@@ -1,4 +1,5 @@
-import Firebase from "@/apis/Firebase";
+import Firebase from "@/apis/firebase";
+import FabricJs from "@/libraries/fabricjs";
 
 export interface RootState {
   firebase: {
@@ -11,6 +12,7 @@ export interface RootState {
     objectsRef: firebase.database.Reference | undefined;
   };
   fabric: {
+    inst: FabricJs | undefined;
     canvas: fabric.Canvas | undefined;
   };
 }

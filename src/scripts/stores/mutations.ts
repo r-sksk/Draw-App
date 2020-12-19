@@ -1,6 +1,6 @@
 import { MutationTree } from "vuex";
 import { RootState } from "@/stores/types";
-import { fabric } from "fabric";
+import FabricJs from "@/libraries/fabricjs";
 
 // ストアの状態変更（同期処理）のみ
 export const mutations: MutationTree<RootState> = {
@@ -8,7 +8,7 @@ export const mutations: MutationTree<RootState> = {
     state.firebase = firebaseObj;
   },
 
-  attachListner: (state) => {
+  attachFireBaseListner: (state) => {
     // firebase定義済みイベント
     // https://firebase.google.com/docs/database/cpp/retrieve-data
     const firebaseChildEvents = [
@@ -45,14 +45,17 @@ export const mutations: MutationTree<RootState> = {
     }
   },
 
-  initCanvas: (state) => {
-    console.log("fabricCanvas init");
-
+  initFabricJs: (state) => {
+    const canvsElmId = "fabricCavas";
     const fabricObj = {
       backgroundColor: "rgb(255, 255, 255)",
     };
-    const canvsElmId = "fabricCavas";
-    const fabricCanvas = new fabric.Canvas(canvsElmId, fabricObj);
-    state.fabric.canvas = fabricCanvas;
+
+    const fabricInst = FabricJs.init(canvsElmId, fabricObj);
+    state.fabric = fabricInst.getFabricInfo();
+  },
+
+  attachFabricJsListner(state) {
+    console.log(state.fabric);
   },
 };

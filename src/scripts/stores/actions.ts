@@ -1,6 +1,6 @@
 import { ActionTree } from "vuex";
 import { RootState } from "@/stores/types";
-import Firebase from "@/apis/Firebase";
+import Firebase from "@/apis/firebase";
 import { FirebaseConfig } from "@/apis/types";
 
 // 外部との通信（非同期処理OK）、描画処理など

@@ -10,7 +10,8 @@ new Vue({
   render: (h) => h(App),
   mounted() {
     store.dispatch("connectFirebase");
-    store.commit("attachListner");
-    store.commit("initCanvas");
+    store.commit("attachFireBaseListner");
+    store.commit("initFabricJs");
+    store.commit("attachFabricJsListner");
   },
 }).$mount("#app");
