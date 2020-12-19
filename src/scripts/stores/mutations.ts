@@ -9,14 +9,13 @@ export const mutations: MutationTree<RootState> = {
   },
 
   initCanvas: (state) => {
-    console.log('fabricCanvas init');
+    console.log("fabricCanvas init");
 
     const fabricObj = {
-      backgroundColor: "red",
-      rotationCursor: "grab",
-    }
-    const canvsElmId = "fabricCavas"
+      backgroundColor: "rgb(255, 255, 255)",
+    };
+    const canvsElmId = "fabricCavas";
     const fabricCanvas = new fabric.Canvas(canvsElmId, fabricObj);
     state.fabric.canvas = fabricCanvas;
-  }
+  },
 };

@@ -4,11 +4,12 @@ import store from "@/stores";
 import router from "@/routes";
 import { fabric } from "fabric";
 
-store.dispatch("connectFirebase");
-store.commit("initCanvas")
-
 new Vue({
   router,
   store,
   render: (h) => h(App),
+  mounted() {
+    store.dispatch("connectFirebase");
+    store.commit("initCanvas");
+  },
 }).$mount("#app");
