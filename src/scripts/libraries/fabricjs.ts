@@ -1,6 +1,5 @@
 import { FabricJsConfig } from "@/libraries/types";
 import { fabric } from "fabric";
-import { RootState } from "@/stores/types";
 
 class FabricJs {
   fabricCanvas: fabric.Canvas;
