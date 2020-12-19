@@ -1,8 +1,11 @@
+import Firebase from "@/apis/Firebase";
+
 export interface RootState {
   firebase: {
-    inst: firebase.app.App | undefined;
+    inst: Firebase | undefined;
+    app: firebase.app.App | undefined;
     dbPath: firebase.database.Database | undefined;
-    storagePath: firebase.storage.Reference | undefined;
+    storageRef: firebase.storage.Reference | undefined;
     boardsRef: firebase.database.Reference | undefined;
     messagesRef: firebase.database.Reference | undefined;
     objectsRef: firebase.database.Reference | undefined;

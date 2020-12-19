@@ -1,5 +1,5 @@
 import firebase from "firebase";
-import { FirebaseConfig } from "./types";
+import { FirebaseConfig } from "@/apis/types";
 
 class Firebase {
   firebaeInit: firebase.app.App;
@@ -13,38 +13,124 @@ class Firebase {
     this.firebaeInit = firebase.initializeApp(config);
   }
 
-  getDBInfo(firebaeInit: firebase.app.App): object {
-    const baseURL = `boards/${location.pathname}`;
-    const dbPath = firebaeInit.database();
+  getDBInfo(): object {
+    const dbPath = this.firebaeInit.database();
+    const baseUrl = location.pathname;
+    const storageRef = this.firebaeInit.storage().ref();
+    const boardsRef = dbPath.ref(baseUrl);
+    const messagesRef = dbPath.ref(`${baseUrl}/messages`);
+    const objectsRef = dbPath.ref(`${baseUrl}/objects`);
 
     const firebaseObj = {
-      inst: firebaeInit,
+      inst: this,
+      app: this.firebaeInit,
       dbPath: dbPath,
-      storagePath: firebaeInit.storage().ref(),
-      boardsRef: dbPath.ref(`${baseURL}/createdAt`),
-      messagesRef: dbPath.ref(`${baseURL}/messages`),
-      objectsRef: dbPath.ref(`${baseURL}/objects`),
+      storageRef: storageRef,
+      boardsRef: boardsRef,
+      messagesRef: messagesRef,
+      objectsRef: objectsRef,
     };
 
     return firebaseObj;
   }
 
-  once(
+  private createBoardsRef(): firebase.database.Reference {
+    const nowDt = Date.now();
+    const newObject = {
+      createdAt: nowDt,
+      objects: { createdAt: nowDt },
+      messages: { createdAt: nowDt },
+    };
+
+    const dbPath = this.firebaeInit.database();
+    const boardsRef = dbPath.ref();
+    const newBoardsRef = this.dataPush(boardsRef, newObject);
+
+    return newBoardsRef;
+  }
+
+  // READ処理（1回限り）
+  private listenOnce(
     event: firebase.database.EventType,
     targetRef: firebase.database.Reference
   ): void {
     targetRef.once(event, (snapshot) => {
-      console.log(snapshot);
+      // boardの存在確認
+      if (snapshot.exists() === false || snapshot.key === null) {
+        const newBoardsRef = this.createBoardsRef();
+        // 作成されたboardへリダイレクト
+        location.pathname = `/${newBoardsRef.key}`;
+      }
+      // TODO: 受け取ったデータをcanvasへ反映（mutationの何かしらの処理）
     });
   }
 
-  on(
+  // READ処理（データの変更を監視）
+  private listenOn(
     event: firebase.database.EventType,
     targetRef: firebase.database.Reference
   ): void {
     targetRef.on(event, (snapshot) => {
+      // TODO: 受け取ったデータをcanvasへ反映（mutationの何かしらの処理）
       console.log(snapshot);
     });
+  }
+
+  // realtime firebase 全体の値を読み取る
+  attachValueListner(event: string, targetRef: firebase.database.Reference) {
+    const castedEvent = event as firebase.database.EventType;
+    this.listenOnce(castedEvent, targetRef);
+  }
+
+  // realtime firebase 特定のパスの子要素の値を読み取る
+  attachChildListner(event: string, targetRef: firebase.database.Reference) {
+    const castedEvent = event as firebase.database.EventType;
+    this.listenOn(castedEvent, targetRef);
+  }
+
+  // INSERT処理
+  private dataPush(
+    targetRef: firebase.database.Reference,
+    value: any
+  ): firebase.database.ThenableReference {
+    const ref = targetRef.push(value);
+
+    return ref;
+  }
+
+  // UPDATE処理
+  private dataSet(
+    targetRef: firebase.database.Reference,
+    value: any,
+    key: any
+  ): void {
+    const childPath = targetRef.child(key);
+    const parsedValue = JSON.stringify(value);
+    childPath.set(parsedValue);
+  }
+
+  // DELETE処理
+  private dataDelete(targetRef: firebase.database.Reference, key: any): void {
+    const childPath = targetRef.child(key);
+    childPath.remove();
+  }
+
+  // UPLOAD処理（Images）
+  private uploadImage(
+    targetRef: firebase.storage.Reference,
+    imgData: any,
+    fileName: string
+  ): void {
+    const storagePath = targetRef.child(fileName);
+    const uploadTask = storagePath.put(imgData);
+
+    if (uploadTask) {
+      this.showProgress(uploadTask);
+    }
+  }
+
+  private showProgress(uploadTask: firebase.storage.UploadTask) {
+    console.log(uploadTask);
   }
 }
 
