@@ -59,7 +59,8 @@ class Firebase {
       if (snapshot.exists() === false || snapshot.key === null) {
         const newBoardsRef = this.createBoardsRef();
         // 作成されたboardへリダイレクト
-        location.pathname = `/${newBoardsRef.key}`;
+        const newBaseUrl = `/${newBoardsRef.key}`;
+        location.pathname = newBaseUrl;
       }
       // TODO: 受け取ったデータをcanvasへ反映（mutationの何かしらの処理）
     });
@@ -72,7 +73,6 @@ class Firebase {
   ): void {
     targetRef.on(event, (snapshot) => {
       // TODO: 受け取ったデータをcanvasへ反映（mutationの何かしらの処理）
-      console.log(snapshot);
     });
   }
 
@@ -94,7 +94,6 @@ class Firebase {
     value: any
   ): firebase.database.ThenableReference {
     const ref = targetRef.push(value);
-
     return ref;
   }
 
