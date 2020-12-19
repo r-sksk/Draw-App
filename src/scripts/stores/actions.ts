@@ -17,8 +17,8 @@ export const actions: ActionTree<RootState, RootState> = {
       measurementId: "G-3TEQSWT2FD",
     };
 
-    const firebase = Firebase.init(firebaseConfig);
-    const firebaseObj = firebase.getDBInfo(firebase.firebaeInit);
+    const firebaseInst = Firebase.init(firebaseConfig);
+    const firebaseObj = firebaseInst.getDBInfo();
     context.commit("initFirebase", firebaseObj);
   },
 };
