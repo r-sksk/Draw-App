@@ -1,6 +1,6 @@
 <template>
   <div class="l-container">
-    <router-view/>
+    <router-view />
   </div>
 </template>
 

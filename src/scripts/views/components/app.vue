@@ -1,10 +1,11 @@
 <template>
   <div>
+    Home
     <FabricCanvas />
   </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import FabricCanvas from "@/views/components/canvas.vue";
 import { Component, Vue } from "vue-property-decorator";
 
@@ -13,6 +14,5 @@ import { Component, Vue } from "vue-property-decorator";
     FabricCanvas,
   },
 })
-
 export default class App extends Vue {}
 </script>
