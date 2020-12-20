@@ -49,13 +49,22 @@ export const mutations: MutationTree<RootState> = {
     const canvsElmId = "fabricCavas";
     const fabricObj = {
       backgroundColor: "rgb(255, 255, 255)",
+      isDrawingMode: true,
     };
 
     const fabricInst = FabricJs.init(canvsElmId, fabricObj);
+    // TODO:
+    //getFabricInfoの戻りの方が間違っている（とりあえずany）
+    // firebaseも同じような感じなので直すこと
     state.fabric = fabricInst.getFabricInfo();
   },
 
-  attachFabricJsListner(state) {
-    console.log(state.fabric);
+  attachFabricJsListner: (state) => {
+    const fabInst = state.fabric.inst;
+    if (fabInst === undefined) {
+      return;
+    }
+
+    fabInst.attachListner();
   },
 };
