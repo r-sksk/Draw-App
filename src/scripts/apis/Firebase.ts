@@ -44,7 +44,7 @@ class Firebase {
 
     const dbPath = this.firebaeInit.database();
     const boardsRef = dbPath.ref();
-    const newBoardsRef = this.dataPush(boardsRef, newObject);
+    const newBoardsRef = this.pushData(boardsRef, newObject);
 
     return newBoardsRef;
   }
@@ -89,7 +89,7 @@ class Firebase {
   }
 
   // INSERT処理
-  private dataPush(
+  pushData(
     targetRef: firebase.database.Reference,
     value: any
   ): firebase.database.ThenableReference {
@@ -98,24 +98,20 @@ class Firebase {
   }
 
   // UPDATE処理
-  private dataSet(
-    targetRef: firebase.database.Reference,
-    value: any,
-    key: any
-  ): void {
+  setData(targetRef: firebase.database.Reference, value: any, key: any): void {
     const childPath = targetRef.child(key);
     const parsedValue = JSON.stringify(value);
     childPath.set(parsedValue);
   }
 
   // DELETE処理
-  private dataDelete(targetRef: firebase.database.Reference, key: any): void {
+  deleteData(targetRef: firebase.database.Reference, key: any): void {
     const childPath = targetRef.child(key);
     childPath.remove();
   }
 
   // UPLOAD処理（Images）
-  private uploadImage(
+  uploadImage(
     targetRef: firebase.storage.Reference,
     imgData: any,
     fileName: string

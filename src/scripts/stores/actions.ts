@@ -21,4 +21,18 @@ export const actions: ActionTree<RootState, RootState> = {
     const firebaseObj = firebaseInst.getDBInfo();
     context.commit("initFirebase", firebaseObj);
   },
+
+  pushObjectsFireBase: (
+    context,
+    object: any
+  ): firebase.database.ThenableReference | undefined => {
+    const fbInst = context.state.firebase.inst;
+    const objRef = context.state.firebase.objectsRef;
+    if (fbInst === undefined) {
+      return undefined;
+    }
+    if (objRef !== undefined) {
+      return fbInst.pushData(objRef, object);
+    }
+  },
 };
