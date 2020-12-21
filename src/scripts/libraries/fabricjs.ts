@@ -1,5 +1,6 @@
 import { FabricJsConfig } from "@/libraries/types";
 import { fabric } from "fabric";
+import { IEvent } from "fabric/fabric-impl";
 import store from "@/stores";
 
 class FabricJs {
@@ -24,81 +25,30 @@ class FabricJs {
     return fabricObj;
   }
 
-  attachListner(): void {
-    const canvas = this.fabricCanvas;
-    // TODO:
-    // イベントごとコールバックの実体はこのクラス内に配置、イベントリスナー登録はmutationで行う
-    // イベントリスナー登録時に、setFirebaseRefKeyなどのmutation内のメソッドをコールバックとして投げる？
-    this.attachMouseDown(canvas);
-    this.attachMouseMove(canvas);
-    this.attachMouseUp(canvas);
-    this.attachPathCreated(canvas);
-    this.attachObjectAdded(canvas);
-    this.attachObjectModified(canvas);
-    this.attachSelectionCreated(canvas);
-    this.attachSelectionUpdated(canvas);
-  }
+  objectAdded(e: IEvent) {
+    const objData = JSON.parse(JSON.stringify(e.target));
+    const promise = store.dispatch("pushObjectsFireBase", objData);
 
-  private attachMouseDown(canvas: fabric.Canvas): void {
-    canvas.on("mouse:move", (e) => {
-      // console.log(e);
+    promise.then((ref) => {
+      if (e.target !== undefined) {
+        store.commit("setFirebaseRefKey", {
+          target: e.target,
+          ref: ref,
+        });
+      }
     });
   }
 
-  private attachMouseMove(canvas: fabric.Canvas): void {
-    canvas.on("mouse:down", (e) => {
-      // console.log(e);
-    });
+  // mouseMove(e: IEvent) {}
+  // mouseDown(e: IEvent) {}
+  // mouseUp(e: IEvent) {}
+  pathCreate(e: IEvent) {
+    console.log(e);
   }
-
-  private attachMouseUp(canvas: fabric.Canvas): void {
-    canvas.on("mouse:up", (e) => {
-      // console.log(e);
-    });
-  }
-
-  private attachPathCreated(canvas: fabric.Canvas): void {
-    canvas.on("path:created", (e) => {
-      // console.log(e);
-    });
-  }
-
-  private attachObjectAdded(canvas: fabric.Canvas): void {
-    canvas.on("object:added", (e) => {
-      const minObjInfo = JSON.stringify(e.target);
-      const promise = store.dispatch(
-        "pushObjectsFireBase",
-        JSON.parse(minObjInfo)
-      );
-      promise.then((ref) => {
-        if (e.target !== undefined) {
-          const obj = {
-            target: e.target,
-            ref: ref
-          }
-          store.commit('setFirebaseRefKey', obj);
-        }
-      });
-    });
-  }
-
-  private attachObjectModified(canvas: fabric.Canvas): void {
-    canvas.on("object:modified", (e) => {
-      console.log(e);
-    });
-  }
-
-  private attachSelectionCreated(canvas: fabric.Canvas): void {
-    canvas.on("selection:created", (e) => {
-      console.log(e);
-    });
-  }
-
-  private attachSelectionUpdated(canvas: fabric.Canvas): void {
-    canvas.on("selection:updated", (e) => {
-      console.log(e);
-    });
-  }
+  // mouseMoved(e: IEvent) {}
+  // objectModified(e: IEvent) {}
+  // selectionCreated(e: IEvent) {}
+  // selectionUpdated(e: IEvent) {}
 }
 
 export default FabricJs;

@@ -1,7 +1,6 @@
 import { MutationTree } from "vuex";
 import { RootState } from "@/stores/types";
 import FabricJs from "@/libraries/fabricjs";
-import { loadSVGFromString } from "fabric/fabric-impl";
 
 // ストアの状態変更（同期処理）のみ
 export const mutations: MutationTree<RootState> = {
@@ -63,23 +62,29 @@ export const mutations: MutationTree<RootState> = {
   },
 
   attachFabricJsListner: (state) => {
-    // TODO:これmutationでやる処理か？どちらかといえばaction?
-
     const fabInst = state.fabric.inst;
-    if (fabInst === undefined) {
+    const canvas = state.fabric.canvas;
+    if (fabInst === undefined || canvas === undefined) {
       return;
     }
 
-    fabInst.attachListner();
+    // canvas.on("mouse:move", (e) => fabInst.mouseMove(e));
+    // canvas.on("object:down", (e) => fabInst.mouseDown(e));
+    // canvas.on("object:up", (e) => fabInst.mouseUp(e));
+    canvas.on("path:created", (e) => fabInst.pathCreate(e));
+    // canvas.on("object:added", (e) => fabInst.objectAdded(e));
+    // canvas.on("object:modified", (e) => fabInst.objectModified(e));
+    // canvas.on("selection:created", (e) => fabInst.selectionCreated(e));
+    // canvas.on("selection:updated", (e) => fabInst.selectionUpdated(e));
   },
 
-  setFirebaseRefKey: (state: RootState, obj: object) => {
-    const target = obj.target;
-    const ref = obj.ref;
+  setFirebaseRefKey: (state, returnObj) => {
+    const target = returnObj.target;
+    const ref = returnObj.ref;
     const targetIdx = state.fabric.canvas?._objects.indexOf(target);
     if (targetIdx !== undefined) {
       state.fabric.canvas?._objects[targetIdx]._set("firebaseRefKey", ref.key);
     }
-
-  }
+    console.log(state.fabric.canvas?._objects);
+  },
 };
