@@ -26,7 +26,9 @@ class FabricJs {
 
   attachListner(): void {
     const canvas = this.fabricCanvas;
-
+    // TODO:
+    // イベントごとコールバックの実体はこのクラス内に配置、イベントリスナー登録はmutationで行う
+    // イベントリスナー登録時に、setFirebaseRefKeyなどのmutation内のメソッドをコールバックとして投げる？
     this.attachMouseDown(canvas);
     this.attachMouseMove(canvas);
     this.attachMouseUp(canvas);
@@ -69,11 +71,12 @@ class FabricJs {
         JSON.parse(minObjInfo)
       );
       promise.then((ref) => {
-        // この処理はmutationでやったほうがよさそう
         if (e.target !== undefined) {
-          const targetIdx = canvas._objects.indexOf(e.target);
-          canvas._objects[targetIdx]._set("refkey", ref.key);
-          console.log(canvas._objects);
+          const obj = {
+            target: e.target,
+            ref: ref
+          }
+          store.commit('setFirebaseRefKey', obj);
         }
       });
     });

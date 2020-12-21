@@ -1,6 +1,7 @@
 import { MutationTree } from "vuex";
 import { RootState } from "@/stores/types";
 import FabricJs from "@/libraries/fabricjs";
+import { loadSVGFromString } from "fabric/fabric-impl";
 
 // ストアの状態変更（同期処理）のみ
 export const mutations: MutationTree<RootState> = {
@@ -9,6 +10,8 @@ export const mutations: MutationTree<RootState> = {
   },
 
   attachFireBaseListner: (state) => {
+    // TODO:これmutationでやる処理か？どちらかといえばaction?
+
     // firebase定義済みイベント
     // https://firebase.google.com/docs/database/cpp/retrieve-data
     const firebaseChildEvents = [
@@ -60,6 +63,8 @@ export const mutations: MutationTree<RootState> = {
   },
 
   attachFabricJsListner: (state) => {
+    // TODO:これmutationでやる処理か？どちらかといえばaction?
+
     const fabInst = state.fabric.inst;
     if (fabInst === undefined) {
       return;
@@ -67,4 +72,14 @@ export const mutations: MutationTree<RootState> = {
 
     fabInst.attachListner();
   },
+
+  setFirebaseRefKey: (state: RootState, obj: object) => {
+    const target = obj.target;
+    const ref = obj.ref;
+    const targetIdx = state.fabric.canvas?._objects.indexOf(target);
+    if (targetIdx !== undefined) {
+      state.fabric.canvas?._objects[targetIdx]._set("firebaseRefKey", ref.key);
+    }
+
+  }
 };
