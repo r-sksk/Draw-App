@@ -16,6 +16,8 @@ class Firebase {
   getDBInfo(): object {
     const dbPath = this.firebaeInit.database();
     const baseUrl = location.pathname;
+    console.log(baseUrl);
+
     const storageRef = this.firebaeInit.storage().ref();
     const boardsRef = dbPath.ref(baseUrl);
     const messagesRef = dbPath.ref(`${baseUrl}/messages`);
