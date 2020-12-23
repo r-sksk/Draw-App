@@ -10,20 +10,11 @@ frontends
   - <https://jp.vuejs.org/index.html>
 - vuex
   - <https://vuex.vuejs.org/ja/>
-- vue-router
-  - <https://router.vuejs.org/ja/>
 
 backends
 
 - Firebase Hosting
   - <https://firebase.google.com/docs/hosting?hl=ja>
-
-<!-- - Amazon S3（ホスティグサービスとして利用）
-  - <https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/dev/WebsiteHosting.html>
-- Amazon Route 53
-  - <https://aws.amazon.com/jp/route53/>
-- Amazon CloudFront
-  - <https://aws.amazon.com/jp/cloudfront/> -->
 
 databases
 
@@ -35,6 +26,8 @@ databases
 ## 見て欲しいところ
 
 ## 苦労したポイント
+
+- 静的ページへのパラメーター付与
 
 ## 作成理由
 
