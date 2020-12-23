@@ -15,8 +15,8 @@ class Firebase {
 
   getDBInfo(): object {
     const dbPath = this.firebaeInit.database();
-    const baseUrl = location.pathname;
-    console.log(baseUrl);
+    let baseUrl = location.search.replace('?id=', '');
+    baseUrl = !baseUrl ? 'not found' : baseUrl;
 
     const storageRef = this.firebaeInit.storage().ref();
     const boardsRef = dbPath.ref(baseUrl);
@@ -61,8 +61,17 @@ class Firebase {
       if (snapshot.exists() === false || snapshot.key === null) {
         const newBoardsRef = this.createBoardsRef();
         // 作成されたboardへリダイレクト
-        const newBaseUrl = `/${newBoardsRef.key}`;
-        location.pathname = newBaseUrl;
+        // constsファイルでも定義してそこに突っ込む
+        // const origin = 'https://draw-talk.web.app';
+        const origin = location.origin;
+        const newId = `?id=${newBoardsRef.key}`;
+        const redirectUrl = `${origin}/${newId}`;
+
+        location.href = redirectUrl;
+        // if (document.referrer) {
+        //   const referrer = "referrer=" + encodeURIComponent(document.referrer);
+        //   redirectUrl += referrer;
+        // }
       }
       // TODO: 受け取ったデータをcanvasへ反映（mutationの何かしらの処理）
     });

@@ -1,6 +1,6 @@
 <template>
   <div class="l-container">
-    <router-view />
+    <Base />
   </div>
 </template>
 
@@ -10,9 +10,12 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import Base from "@/views/components/base.vue"
 
 @Component({
-  components: {},
+  components: {
+    Base,
+  },
 })
 export default class App extends Vue {}
 </script>

@@ -1,6 +1,5 @@
 <template>
   <div>
-    Home
     <FabricCanvas />
   </div>
 </template>
@@ -14,5 +13,5 @@ import { Component, Vue } from "vue-property-decorator";
     FabricCanvas,
   },
 })
-export default class App extends Vue {}
+export default class Base extends Vue {}
 </script>
