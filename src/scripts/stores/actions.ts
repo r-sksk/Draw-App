@@ -28,6 +28,8 @@ export const actions: ActionTree<RootState, RootState> = {
   ): firebase.database.ThenableReference | undefined => {
     const fbInst = context.state.firebase.inst;
     const objRef = context.state.firebase.objectsRef;
+    console.log(objRef);
+
     if (fbInst === undefined) {
       return undefined;
     }
